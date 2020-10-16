@@ -1,26 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Observable, throwError as observableThrowError } from 'rxjs';
+import {from, Observable, of, throwError as observableThrowError} from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppWorker } from "./worker";
+
+const WORKER_DATA: AppWorker[] = [
+  {id: 1, name: 'Hydrogen'},
+  {id: 2, name: 'Helium'},
+  {id: 3, name: 'Lithium'},
+  {id: 4, name: 'Beryllium'},
+  {id: 5, name: 'Boron'},
+  {id: 6, name: 'Carbon'},
+  {id: 7, name: 'Nitrogen'},
+  {id: 8, name: 'Oxygen'},
+  {id: 9, name: 'Fluorine'},
+  {id: 10, name: 'Neon'},
+];
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class WorkerServiceService {
+export class WorkerService {
   private workersUrl = 'app/workers';
 
   constructor(private http: HttpClient) { }
 
   getWorkers() {
-    return this.http
-      .get<AppWorker[]>(this.workersUrl)
-      .pipe(map(data => data), catchError(this.handleError));
+    return of(WORKER_DATA);
+    // this.http
+    //   .get<AppWorker[]>(this.workersUrl)
+    //   .pipe(map(data => data), catchError(this.handleError));
   }
 
-  getworker(id: number): Observable<AppWorker> {
-    return this.getWorkers().pipe(
-      map(workers => workers.find(worker => worker.id === id))
+  getWorker(id: number): Observable<AppWorker> {
+    return from(this.getWorkers()).pipe(
+      map(
+        workers => workers[0]
+          //.find(worker => worker.id === id)
+      )
     );
   }
 
