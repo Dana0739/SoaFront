@@ -1,0 +1,59 @@
+<ng-template #formTemplate let-data=data>
+  <h1 mat-dialog-title>CRUD</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formGroup" class="crud-form">
+      <mat-form-field appearance="standard">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" placeholder="Placeholder" formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>X</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="X">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Y</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="Y">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Salary</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="salary">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Position</mat-label>
+        <mat-select name="position" formControlName="position">
+          <mat-option *ngFor="let position of positions" [value]="position.value">
+            {{position.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Status</mat-label>
+        <mat-select name="status" formControlName="status">
+          <mat-option *ngFor="let status of statuses" [value]="status.value">
+            {{status.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Annual turnover</mat-label>
+        <input matInput placeholder="Placeholder" formControlName="annualTurnover">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Employees count</mat-label>
+        <input matInput placeholder="Placeholder" formControlName="employeesCount">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Organization Type</mat-label>
+        <mat-select name="orgType" formControlName="organizationType">
+          <mat-option *ngFor="let orgType of organizationType" [value]="orgType.value">
+            {{orgType.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="close()">No Thanks</button>
+    <button mat-button cdkFocusInitial>Ok</button>
+  </div>
+</ng-template>

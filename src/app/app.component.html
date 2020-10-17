@@ -1,1 +1,7 @@
-<app-workers-table></app-workers-table>
+<header>
+  <a [routerLink]="['table']" style="margin-right: 6px">Table</a>
+  <a [routerLink]="['commands']">Commands</a>
+</header>
+<div>
+  <router-outlet></router-outlet>
+</div>

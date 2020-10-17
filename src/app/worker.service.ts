@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {from, Observable, of, throwError as observableThrowError} from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { AppWorker } from "./worker";
+import {catchError, map, mergeMap} from 'rxjs/operators';
+import {AppWorker} from "./worker";
+import {environment} from "../environments/environment";
+import * as xml2js from 'xml2js';
 
-const WORKER_DATA: AppWorker[] = [
+
+const WORKER_DATA: any[] = [
   {id: 1, name: 'Hydrogen'},
   {id: 2, name: 'Helium'},
   {id: 3, name: 'Lithium'},
@@ -23,23 +26,36 @@ const WORKER_DATA: AppWorker[] = [
 })
 export class WorkerService {
   private workersUrl = 'app/workers';
+  private url = environment.url;
 
-  constructor(private http: HttpClient) { }
-
-  getWorkers() {
-    return of(WORKER_DATA);
-    // this.http
-    //   .get<AppWorker[]>(this.workersUrl)
-    //   .pipe(map(data => data), catchError(this.handleError));
+  constructor(private http: HttpClient) {
   }
 
+  getWorkers(): Observable<AppWorker[]> {
+    // return of(WORKER_DATA);
+    return this.http.get(
+      `${this.url}/Main?function=getAllWorkers`, {responseType: 'text'}
+    ).pipe(
+      mergeMap(res => {
+        console.log(res);
+        return new Observable<AppWorker[]>(subscriber => {
+          xml2js.parseString(res, {explicitArray: false}, (err, res) => {
+            console.log(res);
+            res.response.worker.forEach(worker => {
+              worker.creationDate = worker.creationDate.slice(0, 32);
+            })
+            subscriber.next(res.response.worker);
+            subscriber.complete();
+          })
+        });
+      })
+    )
+  }
+
+  ß
+
   getWorker(id: number): Observable<AppWorker> {
-    return from(this.getWorkers()).pipe(
-      map(
-        workers => workers[0]
-          //.find(worker => worker.id === id)
-      )
-    );
+    return of(WORKER_DATA[0])
   }
 
   save(worker: AppWorker) {
@@ -56,6 +72,18 @@ export class WorkerService {
     const url = `${this.workersUrl}/${worker.id}`;
 
     return this.http.delete<AppWorker>(url).pipe(catchError(this.handleError));
+  }
+
+  public getWorkerWithMaxSalary(): Observable<AppWorker> {
+    return of(WORKER_DATA[0]);
+  }
+
+  public getWorkersCountWithSalary(salary: number): Observable<number> {
+    return of(12);
+  }
+
+  public getWorkersWithPrefix(prefix: string): Observable<AppWorker[]> {
+    return of(WORKER_DATA);
   }
 
   // Add new worker

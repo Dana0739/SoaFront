@@ -1,0 +1,11 @@
+<div>
+  <button mat-button (click)="getMax()">Max</button>
+  <button mat-button (click)="getPrefix()">Prefix</button>
+  <mat-label>Prefix</mat-label>
+  <input matInput type="text" [(ngModel)]="prefix">
+  <mat-label>Salary</mat-label>
+  <button mat-button (click)="getSalary()">Salary</button>
+  <input matInput type="number" [(ngModel)]="salary">
+  <span>Count: {{count}}</span>
+  <app-workers-table [workers]="workers"></app-workers-table>
+</div>

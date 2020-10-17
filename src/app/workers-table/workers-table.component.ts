@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AppWorker} from "../worker";
-import {Router} from "@angular/router";
-import { WorkerService } from '../worker.service';
+import {PageEvent} from "@angular/material/paginator";
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -11,19 +10,48 @@ import { WorkerService } from '../worker.service';
   templateUrl: './workers-table.component.html',
   styleUrls: ['./workers-table.component.css']
 })
-export class WorkersTableComponent {
+export class WorkersTableComponent implements OnInit, OnChanges {
+  @Input()
   workers: AppWorker[] = [];
+  displayed: AppWorker[] = [];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'coordinateX',
+    'coordinateY',
+    'annualTurnover',
+    'creationDate',
+    'endDate',
+    'employeesCount',
+    'organizationType',
+    'salary',
+    'status',
+    'position',
+  ];
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
 
-  constructor(
-    private router: Router,
-    private workerService: WorkerService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.workerService.getWorkers()
-      .subscribe(workers => this.workers = workers.slice(1, 5));
+
   }
 
-  displayedColumns: string[] = ['id', 'name'];
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.workers) {
+      this.pageIndex = 0;
+      this.length = this.workers.length;
+      this.displayed = this.workers.slice(0, this.pageSize);
+    }
+  }
+
+  pageChange(event: PageEvent): void {
+    console.log(event);
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.displayed = this.workers.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
+  }
 }
 

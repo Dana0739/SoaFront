@@ -1,0 +1,8 @@
+<div>
+  <button mat-button (click)="createWorker()">Add</button>
+  <app-workers-table [workers]="workers"></app-workers-table>
+</div>
+
+<app-crud-form [(visible)]="formVisible"
+               [worker]="currentWorker">
+</app-crud-form>
