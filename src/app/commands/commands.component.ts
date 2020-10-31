@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AppWorker} from "../worker";
-import {WorkerService} from "../worker.service";
+import {AppWorker} from '../worker';
+import {WorkerService} from '../worker.service';
 
 @Component({
   selector: 'app-commands',

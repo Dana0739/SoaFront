@@ -8,15 +8,19 @@
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>X</mat-label>
-        <input matInput type="number" placeholder="Placeholder" formControlName="X">
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateX">
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Y</mat-label>
-        <input matInput type="number" placeholder="Placeholder" formControlName="Y">
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateY">
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Salary</mat-label>
         <input matInput type="number" placeholder="Placeholder" formControlName="salary">
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>endDate</mat-label>
+        <input matInput type="datetime-local" placeholder="Placeholder" formControlName="endDate">
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Position</mat-label>
@@ -54,6 +58,6 @@
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="close()">No Thanks</button>
-    <button mat-button cdkFocusInitial>Ok</button>
+    <button mat-button (click)="ok()">Ok</button>
   </div>
 </ng-template>

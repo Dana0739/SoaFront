@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AppWorker} from "../worker";
-import {WorkerService} from "../worker.service";
+import {AppWorker} from '../worker';
+import {WorkerService} from '../worker.service';
 
 @Component({
   selector: 'app-all-workers',
@@ -9,19 +9,29 @@ import {WorkerService} from "../worker.service";
 })
 export class AllWorkersComponent implements OnInit {
   workers: AppWorker[];
-  formVisible: boolean;
-  currentWorker: AppWorker;
+  addFormVisible: boolean;
+  addCurrentWorker: AppWorker;
+  id: number;
 
   constructor(private workerService: WorkerService) {
   }
 
   ngOnInit(): void {
-    this.workerService.getWorkers()
-      .subscribe(workers => this.workers = workers);
+    this.workerService.getWorkers().subscribe((workers) => this.workers = workers);
   }
 
-  createWorker() {
-    this.formVisible = true;
-    this.currentWorker = undefined;
+  createWorker(): void {
+    this.addFormVisible = true;
+    this.addCurrentWorker = undefined;
+    this.id = null;
+  }
+
+  editWorker(): void {
+    this.addFormVisible = true;
+    this.addCurrentWorker = undefined;
+  }
+
+  deleteWorker(): void {
+    this.workerService.delete(this.id).subscribe(worker => window.location.reload());
   }
 }

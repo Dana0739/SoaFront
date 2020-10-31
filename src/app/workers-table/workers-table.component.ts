@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {AppWorker} from "../worker";
-import {PageEvent} from "@angular/material/paginator";
+import {AppWorker} from '../worker';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -36,10 +36,9 @@ export class WorkersTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.workers) {
       this.pageIndex = 0;
       this.length = this.workers.length;

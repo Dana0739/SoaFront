@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "soa"
+    }
+  },
+  "defaultProject": "soa",
+  "cli": {
+    "analytics": false
+  }
 }
