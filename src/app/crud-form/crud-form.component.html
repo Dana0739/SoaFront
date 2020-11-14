@@ -4,28 +4,28 @@
     <form [formGroup]="formGroup" class="crud-form">
       <mat-form-field appearance="standard">
         <mat-label>Name</mat-label>
-        <input matInput type="text" placeholder="Placeholder" formControlName="name">
+        <input matInput type="text" placeholder="Placeholder" formControlName="name" required>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>X</mat-label>
-        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateX">
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateX" required>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Y</mat-label>
-        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateY">
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateY" required>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Salary</mat-label>
         <input matInput type="number" placeholder="Placeholder" formControlName="salary">
       </mat-form-field>
       <mat-form-field appearance="standard">
-        <mat-label>endDate</mat-label>
+        <mat-label>End date</mat-label>
         <input matInput type="datetime-local" placeholder="Placeholder" formControlName="endDate">
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Position</mat-label>
-        <mat-select name="position" formControlName="position">
-          <mat-option *ngFor="let position of positions" [value]="position.value">
+        <mat-select name="position" formControlName="position" required>
+          <mat-option *ngFor="let position of positions" [value]="position.value" required>
             {{position.viewValue}}
           </mat-option>
         </mat-select>
@@ -40,16 +40,16 @@
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Annual turnover</mat-label>
-        <input matInput placeholder="Placeholder" formControlName="annualTurnover">
+        <input matInput type="number" placeholder="Placeholder" formControlName="annualTurnover" required>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Employees count</mat-label>
-        <input matInput placeholder="Placeholder" formControlName="employeesCount">
+        <input matInput type="number" placeholder="Placeholder" formControlName="employeesCount" required>
       </mat-form-field>
       <mat-form-field appearance="standard">
-        <mat-label>Organization Type</mat-label>
-        <mat-select name="orgType" formControlName="organizationType">
-          <mat-option *ngFor="let orgType of organizationType" [value]="orgType.value">
+        <mat-label>Organization type</mat-label>
+        <mat-select name="orgType" formControlName="organizationType" required>
+          <mat-option *ngFor="let orgType of organizationType" [value]="orgType.value" required>
             {{orgType.viewValue}}
           </mat-option>
         </mat-select>
@@ -57,7 +57,10 @@
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="close()">No Thanks</button>
-    <button mat-button (click)="ok()">Ok</button>
+    <p [hidden]="formValid">
+      Only Salary, Status and End date are NOT required!
+    </p>
+    <button mat-button color="primary" (click)="close()">No Thanks</button>
+    <button mat-button color="primary" (click)="ok()">Ok</button>
   </div>
 </ng-template>

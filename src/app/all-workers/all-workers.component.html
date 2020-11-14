@@ -1,12 +1,18 @@
 <div>
-  <button mat-button (click)="createWorker()">Add</button>
-  <button mat-button (click)="editWorker()">Edit</button>
-  <input type="number" [(ngModel)]="id">
-  <button mat-button (click)="deleteWorker()">Delete</button>
-  <app-workers-table [workers]="workers"></app-workers-table>
+  <button mat-button color="primary" (click)="createWorker()">Add new Worker</button><br/>
+  <button mat-button color="primary" (click)="editWorker()">Edit worker by id</button>
+  <label>
+    <input placeholder="Worker Id" type="number" min="0" value="" [(ngModel)]="id" required>
+  </label>
+  <button mat-button color="primary" (click)="deleteWorker()">Delete worker by id</button>
+  <p [hidden]="!!id || id == 0" class="warning">
+    Id is required!
+  </p>
+  <app-workers-table-filter-sort (workersChange)="onWorkersChanged($event)"></app-workers-table-filter-sort>
 </div>
 
 <app-crud-form [(visible)]="addFormVisible"
                [worker]="addCurrentWorker"
-               [id]="id">
+               [id]="id"
+               [isEdit]="isEdit">
 </app-crud-form>

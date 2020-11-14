@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+}
+.crud-form {
+  display: flex;
+  flex-direction: column;
+}
+.warning {
+  color: darkred;
+  font-weight: bold;
+}
+

@@ -6,9 +6,9 @@ export class AppWorker {
   annualTurnover: number;
   creationDate: string;
   employeesCount: number;
-  endDate: string;
+  endDate?: string;
   organizationType: string;
   position: string;
-  salary: number;
-  status: string;
+  salary?: number;
+  status?: string;
 }

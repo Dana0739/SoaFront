@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:12123/lab1-1.0-SNAPSHOT/workers',
+  url: 'http://localhost:34345/lab1-1.0-SNAPSHOT/workers'
 };
 
 /*

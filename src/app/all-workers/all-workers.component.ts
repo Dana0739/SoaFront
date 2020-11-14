@@ -8,30 +8,38 @@ import {WorkerService} from '../worker.service';
   styleUrls: ['./all-workers.component.css']
 })
 export class AllWorkersComponent implements OnInit {
-  workers: AppWorker[];
   addFormVisible: boolean;
   addCurrentWorker: AppWorker;
   id: number;
+  isEdit: boolean;
 
   constructor(private workerService: WorkerService) {
   }
 
   ngOnInit(): void {
-    this.workerService.getWorkers().subscribe((workers) => this.workers = workers);
+    this.isEdit = false;
+  }
+
+  onWorkersChanged(increased: any): void{
+    this.id = increased ? (increased[0] ? increased[0].id : 0) : 0;
   }
 
   createWorker(): void {
     this.addFormVisible = true;
     this.addCurrentWorker = undefined;
-    this.id = null;
+    this.isEdit = false;
   }
 
   editWorker(): void {
-    this.addFormVisible = true;
-    this.addCurrentWorker = undefined;
+    if (!!this.id || this.id === 0) {
+      this.addFormVisible = true;
+      this.isEdit = true;
+    }
   }
 
   deleteWorker(): void {
-    this.workerService.delete(this.id).subscribe(worker => window.location.reload());
+    if (!!this.id || this.id === 0) {
+      this.workerService.delete(this.id).subscribe(() => window.location.reload());
+    }
   }
 }

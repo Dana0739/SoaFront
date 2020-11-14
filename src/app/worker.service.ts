@@ -38,11 +38,19 @@ export class WorkerService {
         console.log(res);
         return new Observable<AppWorker[]>(subscriber => {
           xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-            console.log(parsed);
-            parsed.response.worker.forEach(worker => {
+            let workers = parsed.response.worker;
+            if (!Array.isArray(parsed.response.worker)) {
+              workers = [];
+              workers.push(parsed.response.worker);
+            }
+            console.log(workers);
+            workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
+              if (worker.endDate.charAt(0) === '0') {
+                worker.endDate = worker.endDate.replace('0', '2');
+              }
             });
-            subscriber.next(parsed.response.worker);
+            subscriber.next(workers);
             subscriber.complete();
           });
         });
@@ -50,9 +58,51 @@ export class WorkerService {
     );
   }
 
+  getWorkersFilterSort(filterFields: string, sortFields: string, filterValues: string,
+                       pageSize: number, pageNumber: number): Observable<AppWorker[]> {
+    const url = `${this.url}` + this.makeFilterSortArgs(filterFields, sortFields, filterValues, pageSize, pageNumber);
+    console.log(url);
+    return this.http.get(
+      url, {responseType: 'text'}
+    ).pipe(
+      mergeMap(res => {
+        console.log(res);
+        return new Observable<AppWorker[]>(subscriber => {
+          xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
+            let workers = parsed.response.worker;
+            if (!Array.isArray(parsed.response.worker)) {
+              workers = [];
+              workers.push(parsed.response.worker);
+            }
+            console.log(workers);
+            workers.forEach(worker => {
+              worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
+              if (worker.endDate.charAt(0) === '0') {
+                worker.endDate = worker.endDate.replace('0', '2');
+              }
+            });
+            subscriber.next(workers);
+            subscriber.complete();
+          });
+        });
+      })
+    );
+  }
+
+  private makeFilterSortArgs(filterFields: string, sortFields: string, filterValues: string,
+                             pageSize: number, pageNumber: number): string {
+    let args = ('?' + ((filterFields !== '') ? 'filterFields=' + filterFields + '&' : '')
+      + ((sortFields !== '') ? 'sortFields=' + sortFields + '&' : '')
+      + ((filterValues !== '') ? 'filterValues=' + filterValues + '&' : '')
+      + ((pageSize !== null) ? 'pageSize=' + pageSize + '&' : '')
+      + ((pageNumber !== null) ? 'pageNumber=' + pageNumber + '&' : '')).trim();
+    args = args.slice(0, -1);
+    return args;
+  }
+
   getWorker(id: number): Observable<AppWorker> {
     return this.http.get(
-      `${this.url}?id=${id}`, {responseType: 'text'}
+      `${this.url}/${id}`, {responseType: 'text'}
     ).pipe(
       mergeMap(res => {
         console.log(res);
@@ -61,58 +111,29 @@ export class WorkerService {
             console.log(parsed);
             parsed.response.worker.creationDate =
               parsed.response.worker.creationDate.slice(0, parsed.response.worker.creationDate.indexOf('['));
+            if (parsed.response.worker.endDate.charAt(0) === '0') {
+              parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
+            }
             subscriber.next(parsed.response.worker);
             subscriber.complete();
           });
         });
-      })
-    );
+      }));
   }
 
-  save(worker: AppWorker) {
-    if (worker.id) {
-      return this.put(worker);
-    }
-    return this.post(worker);
-  }
-
-  delete(id: number): Observable<AppWorker> {
-    const url = `${this.url}?id=${id}`;
+  delete(id: number): Observable<boolean> {
+    const url = `${this.url}/${id}`;
     return this.http.delete(
       url, {responseType: 'text'}
     ).pipe(
       mergeMap(res => {
-        console.log('res');
         console.log(res);
-        return new Observable<AppWorker>(subscriber => {
-          xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-            console.log('parsed');
-            console.log(parsed);
-            parsed.response.worker.creationDate = parsed.response.worker.creationDate
-              .slice(0, parsed.response.worker.creationDate.indexOf('['));
-            subscriber.next(parsed.response.worker);
-            subscriber.complete();
-          });
+        return new Observable<boolean>(subscriber => {
+          subscriber.next(true);
+          subscriber.complete();
         });
       })
     );
-
-    // return this.http.delete(
-    //   url, {responseType: 'text'}
-    // ).subscribe(res => {
-    //   console.log('res');
-    //   console.log(res);
-    //   return new Observable<AppWorker>(subscriber => {
-    //     xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-    //       console.log('parsed');
-    //       console.log(parsed);
-    //       parsed.response.worker.creationDate = parsed.response.worker.creationDate
-    //       .slice(0, parsed.response.worker.creationDate.indexOf('['));
-    //       subscriber.next(parsed.response.worker);
-    //       subscriber.complete();
-    //     });
-    //   });
-    // });
   }
 
   public getWorkerWithMaxSalary(): Observable<AppWorker> {
@@ -121,14 +142,15 @@ export class WorkerService {
       url, {responseType: 'text'}
     ).pipe(
       mergeMap(res => {
-        console.log('res');
         console.log(res);
         return new Observable<AppWorker>(subscriber => {
           xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-            console.log('parsed');
             console.log(parsed);
             parsed.response.worker.creationDate = parsed.response.worker.creationDate
               .slice(0, parsed.response.worker.creationDate.indexOf('['));
+            if (parsed.response.worker.endDate.charAt(0) === '0') {
+              parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
+            }
             subscriber.next(parsed.response.worker);
             subscriber.complete();
           });
@@ -143,11 +165,9 @@ export class WorkerService {
       url, {responseType: 'text'}
     ).pipe(
       mergeMap(res => {
-        console.log('res');
         console.log(res);
         return new Observable<number>(subscriber => {
           xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-            console.log('parsed');
             console.log(parsed);
             subscriber.next(parsed.response.count);
             subscriber.complete();
@@ -162,37 +182,53 @@ export class WorkerService {
       url, {responseType: 'text'}
     ).pipe(
       mergeMap(res => {
-        console.log('res');
         console.log(res);
         return new Observable<AppWorker[]>(subscriber => {
           xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-            console.log('parsed');
-            console.log(parsed);
-            parsed.response.worker.forEach(worker => {
+            let workers = parsed.response.worker;
+            if (!Array.isArray(parsed.response.worker)) {
+              workers = [];
+              workers.push(parsed.response.worker);
+            }
+            console.log(workers);
+            workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
+              if (worker.endDate.charAt(0) === '0') {
+                worker.endDate = worker.endDate.replace('0', '2');
+              }
             });
-            subscriber.next(parsed.response.worker);
+            subscriber.next(workers);
             subscriber.complete();
           });
         });
       }));
   }
 
+  save(worker: AppWorker) {
+    if (worker.id) {
+      return this.put(worker);
+    }
+    return this.post(worker);
+  }
+
   // Add new worker
   private post(worker: AppWorker) {
     console.log('posting');
+    let url = this.url + '?' + this.makeArgsForUrl(worker);
+    url = (url[-1] === '?') ? url.slice(0, -1) : url;
     return this.http.post(
-      this.makeUrlWithArgs(worker), null, {responseType: 'text'}
+      url, null, {responseType: 'text'}
     ).subscribe(res => {
-      console.log('res');
       console.log(res);
       window.location.reload();
       return new Observable<AppWorker>(subscriber => {
         xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-          console.log('parsed');
           console.log(parsed);
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
+          if (worker.endDate.charAt(0) === '0') {
+            worker.endDate = worker.endDate.replace('0', '2');
+          }
           subscriber.next(parsed.response.worker);
           subscriber.complete();
         });
@@ -203,18 +239,21 @@ export class WorkerService {
   // Update existing worker
   private put(worker: AppWorker) {
     console.log('putting');
+    let url = `${this.url}/${worker.id}?` + this.makeArgsForUrl(worker);
+    url = (url[-1] === '?') ? url.slice(0, -1) : url;
     return this.http.put(
-      this.makeUrlWithArgs(worker), null, {responseType: 'text'}
+      url, null, {responseType: 'text'}
     ).subscribe(res => {
-      console.log('res');
       console.log(res);
       window.location.reload();
       return new Observable<AppWorker>(subscriber => {
         xml2js.parseString(res, {explicitArray: false}, (err, parsed) => {
-          console.log('parsed');
           console.log(parsed);
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
+          if (parsed.response.worker.endDate.charAt(0) === '0') {
+            parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
+          }
           subscriber.next(parsed.response.worker);
           subscriber.complete();
         });
@@ -222,19 +261,18 @@ export class WorkerService {
     });
   }
 
-  private makeUrlWithArgs(worker: AppWorker): string {
-    console.log('making url');
-    return (this.url + '?'
-      + ((worker.id) ? 'id=' + worker.id + '&' : '')
+  private makeArgsForUrl(worker: AppWorker): string {
+    let args = (((worker.salary) ? 'salary=' + worker.salary + '&' : '')
       + ((worker.coordinateX) ? 'coordinateX=' + worker.coordinateX + '&' : '')
       + ((worker.coordinateY) ? 'coordinateY=' + worker.coordinateY + '&' : '')
-      + ((worker.employeesCount) ? 'employeesCount=' + worker.employeesCount + '&' : '')
       + ((worker.organizationType) ? 'organizationType=' + worker.organizationType + '&' : '')
       + ((worker.annualTurnover) ? 'annualTurnover=' + worker.annualTurnover + '&' : '')
       + ((worker.endDate) ? 'endDate=' + worker.endDate + '&' : '')
       + ((worker.name) ? 'name=' + worker.name + '&' : '')
       + ((worker.position) ? 'position=' + worker.position + '&' : '')
       + ((worker.status) ? 'status=' + worker.status + '&' : '')
-      + ((worker.salary) ? 'salary=' + worker.salary + '&' : '')).slice(0, -1);
+      + ((worker.employeesCount) ? 'employeesCount=' + worker.employeesCount + '&' : '')).trim();
+    args = (args[-1] === '&') ? args.slice(0, -1) : args;
+    return args;
   }
 }

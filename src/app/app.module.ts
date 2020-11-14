@@ -4,7 +4,6 @@ import {MatTableModule} from '@angular/material/table';
 
 import {AppComponent} from './app.component';
 import {WorkersTableComponent} from './workers-table/workers-table.component';
-import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {CommandsComponent} from './commands/commands.component';
 import {AllWorkersComponent} from './all-workers/all-workers.component';
@@ -18,6 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { WorkersTableFilterSortComponent } from './workers-table-filter-sort/workers-table-filter-sort.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CommandsComponent,
     AllWorkersComponent,
     CrudFormComponent,
+    WorkersTableFilterSortComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -33,7 +34,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,

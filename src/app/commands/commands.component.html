@@ -1,9 +1,19 @@
 <div>
-  <button mat-button (click)="getMax()">Max</button>
-  <input type="text" [(ngModel)]="prefix">
-  <button mat-button (click)="getPrefix()">Prefix</button>
-  <input type="number" [(ngModel)]="salary">
-  <button mat-button (click)="getSalary()">Salary</button>
-  <span>Count: {{count}}</span>
+  <button mat-button color="primary" (click)="getMax()">Find worker with max salary</button><br/>
+  <button mat-button color="primary" (click)="getPrefix()">Find with prefix:</button>
+  <label>
+    <input type="text" [(ngModel)]="prefix">
+  </label><br/>
+  <button mat-button color="primary" (click)="getSalary()">Count workers with salary:</button>
+  <label>
+    <input type="number" [(ngModel)]="salary">
+  </label>
+  <span> Count: {{count}}</span><br/>
+  <p [hidden]="!!salaryValid" class="warning">Salary must be number more than zero</p>
+  <button mat-button color="primary" (click)="getWorkerById()">Get worker by id:</button>
+  <label>
+    <input type="number" [(ngModel)]="id">
+  </label>
+  <p [hidden]="!!idValid" class="warning">Id must be number more than zero</p>
   <app-workers-table [workers]="workers"></app-workers-table>
 </div>

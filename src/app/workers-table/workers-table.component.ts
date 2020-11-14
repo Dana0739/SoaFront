@@ -13,7 +13,6 @@ import {PageEvent} from '@angular/material/paginator';
 export class WorkersTableComponent implements OnInit, OnChanges {
   @Input()
   workers: AppWorker[] = [];
-  displayed: AppWorker[] = [];
   displayedColumns: string[] = [
     'id',
     'name',
@@ -42,7 +41,6 @@ export class WorkersTableComponent implements OnInit, OnChanges {
     if (this.workers) {
       this.pageIndex = 0;
       this.length = this.workers.length;
-      this.displayed = this.workers.slice(0, this.pageSize);
     }
   }
 
@@ -50,7 +48,6 @@ export class WorkersTableComponent implements OnInit, OnChanges {
     console.log(event);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.displayed = this.workers.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
   }
 }
 
