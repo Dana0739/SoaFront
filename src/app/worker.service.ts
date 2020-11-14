@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {from, Observable, of, throwError as observableThrowError} from 'rxjs';
-import {catchError, map, mergeMap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 import {AppWorker} from './worker';
 import {environment} from '../environments/environment';
 import * as xml2js from 'xml2js';
