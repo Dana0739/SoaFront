@@ -1,0 +1,17 @@
+<div>
+  <button mat-button color="primary" (click)="createOrganization()">Add new organization</button><br/>
+  <button mat-button color="primary" (click)="editOrganization()">Edit organization by id</button>
+  <label>
+    <input placeholder="Organization Id" type="number" min="0" value="" [(ngModel)]="id" required>
+  </label>
+  <button mat-button color="primary" (click)="deleteOrganization()">Delete organization by id</button>
+  <p [hidden]="!!id || id == 0" class="warning">
+    Id is required!
+  </p>
+  <app-organizations-table [organizations]="organizations"></app-organizations-table>
+</div>
+
+<app-organization-crud-form [(visible)]="addFormVisible"
+               [id]="id"
+               [isEdit]="isEdit">
+</app-organization-crud-form>

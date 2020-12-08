@@ -1,0 +1,31 @@
+<ng-template #formTemplate let-data=data>
+  <h1 mat-dialog-title>CRUD</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formGroup" class="crud-form">
+      <mat-form-field appearance="standard">
+        <mat-label>Annual turnover</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="annualTurnover" required>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Employees count</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="employeesCount" required>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Organization type</mat-label>
+        <mat-select name="orgType" formControlName="organizationType" required>
+          <mat-option *ngFor="let orgType of organizationType" [value]="orgType.value">
+            {{orgType.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <p [hidden]="formValid">
+      Annual turnover and employees count must be more 0!
+      All fields are required!
+    </p>
+    <button mat-button color="primary" (click)="close()">No Thanks</button>
+    <button mat-button color="primary" (click)="ok()">Ok</button>
+  </div>
+</ng-template>

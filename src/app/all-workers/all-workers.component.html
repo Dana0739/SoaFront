@@ -8,11 +8,10 @@
   <p [hidden]="!!id || id == 0" class="warning">
     Id is required!
   </p>
-  <app-workers-table-filter-sort (workersChange)="onWorkersChanged($event)"></app-workers-table-filter-sort>
+  <app-workers-table-filter-sort (workersChange)="onWorkersChanged($event)" ></app-workers-table-filter-sort>
 </div>
 
 <app-crud-form [(visible)]="addFormVisible"
-               [worker]="addCurrentWorker"
                [id]="id"
                [isEdit]="isEdit">
 </app-crud-form>

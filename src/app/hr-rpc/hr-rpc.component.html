@@ -1,0 +1,49 @@
+<div>
+  <ng-template #formTemplate let-data=data>
+    <div mat-dialog-content>
+      <form [formGroup]="formGroup" class="crud-form">
+        <mat-form-field appearance="standard">
+          <mat-label>person Id</mat-label>
+          <input matInput type="number" placeholder="Placeholder" formControlName="personId" required>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>organization Id</mat-label>
+          <input matInput type="number" placeholder="Placeholder" formControlName="orgId" required>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Start date</mat-label>
+          <input matInput type="datetime-local" placeholder="Placeholder" formControlName="startDate">
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Position</mat-label>
+          <mat-select name="position" formControlName="position" required>
+            <mat-option *ngFor="let position of positions" [value]="position.value">
+              {{position.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Status</mat-label>
+          <mat-select name="status" formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status.value">
+              {{status.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <p [hidden]="formValid">
+        Id must be > 0!
+        All fields are required!
+      </p>
+      <button mat-button color="primary" (click)="hire()">No Thanks</button>
+    </div>
+  </ng-template>
+  <br/>
+  <button mat-button color="primary" (click)="fire()">Fire</button>
+  <label>
+    <input type="number" [(ngModel)]="workerId">
+  </label>
+  <p [hidden]="!!idValid" class="warning">Id must be number more than zero</p>
+</div>

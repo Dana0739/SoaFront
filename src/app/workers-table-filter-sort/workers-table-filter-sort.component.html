@@ -80,6 +80,24 @@
           </ng-template></td>
       </ng-container>
 
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef> Start date<br/>
+          <button mat-button color="primary" (click)="manageSort('startDate')">Sort</button>
+          <p>{{(sortArray.includes('startDate')) ? sortArray.indexOf('startDate') + 1 : ' '}}</p>
+          <mat-form-field appearance="standard">
+            <mat-label>Start date</mat-label>
+            <input matInput type="datetime-local" placeholder="Placeholder" formControlName="startDate">
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.startDate; else defaultValue">
+            {{element.startDate | date}}
+          </ng-container>
+          <ng-template #defaultValue>
+            -
+          </ng-template></td>
+      </ng-container>
+
       <ng-container matColumnDef="endDate">
         <th mat-header-cell *matHeaderCellDef> End date<br/>
           <button mat-button color="primary" (click)="manageSort('endDate')">Sort</button>
@@ -111,7 +129,13 @@
             </mat-select>
           </mat-form-field>
         </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.position; else defaultValue">
+          {{element.position}}
+          </ng-container>
+          <ng-template #defaultValue>
+            -
+          </ng-template></td>
       </ng-container>
 
       <ng-container matColumnDef="status">
@@ -136,6 +160,42 @@
           </ng-template></td>
       </ng-container>
 
+      <ng-container matColumnDef="annualTurnover">
+        <th mat-header-cell *matHeaderCellDef> Annual turnover<br/>
+          <button mat-button color="primary" (click)="manageSort('annualTurnover')">Sort</button>
+          <p>{{(sortArray.includes('annualTurnover')) ? sortArray.indexOf('annualTurnover') + 1 : ' '}}</p>
+          <mat-form-field appearance="standard">
+            <mat-label>Annual turnover</mat-label>
+            <input matInput type="number" placeholder="Placeholder" formControlName="annualTurnover">
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.annualTurnover; else defaultValue">
+          {{element.annualTurnover}}
+          </ng-container>
+          <ng-template #defaultValue>
+            -
+          </ng-template></td>
+      </ng-container>
+
+      <ng-container matColumnDef="employeesCount">
+        <th mat-header-cell *matHeaderCellDef> Employees count<br/>
+          <button mat-button color="primary" (click)="manageSort('employeesCount')">Sort</button>
+          <p>{{(sortArray.includes('employeesCount')) ? sortArray.indexOf('employeesCount') + 1 : ' '}}</p>
+          <mat-form-field appearance="standard">
+            <mat-label>Employees count</mat-label>
+            <input matInput type="number" placeholder="Placeholder" formControlName="employeesCount">
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.employeesCount; else defaultValue">
+          {{element.employeesCount}}
+          </ng-container>
+          <ng-template #defaultValue>
+            -
+          </ng-template></td>
+      </ng-container>
+
       <ng-container matColumnDef="organizationType">
         <th mat-header-cell *matHeaderCellDef> Organization type<br/>
           <button mat-button color="primary" (click)="manageSort('organizationType')">Sort</button>
@@ -148,31 +208,13 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        <td mat-cell *matCellDef="let element"> {{element.organizationType}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="employeesCount">
-        <th mat-header-cell *matHeaderCellDef> Employees count<br/>
-          <button mat-button color="primary" (click)="manageSort('employeesCount')">Sort</button>
-          <p>{{(sortArray.includes('employeesCount')) ? sortArray.indexOf('employeesCount') + 1 : ' '}}</p>
-          <mat-form-field appearance="standard">
-            <mat-label>Employees count</mat-label>
-            <input matInput type="number" placeholder="Placeholder" formControlName="employeesCount">
-          </mat-form-field>
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.employeesCount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="annualTurnover">
-        <th mat-header-cell *matHeaderCellDef> Annual turnover<br/>
-          <button mat-button color="primary" (click)="manageSort('annualTurnover')">Sort</button>
-          <p>{{(sortArray.includes('annualTurnover')) ? sortArray.indexOf('annualTurnover') + 1 : ' '}}</p>
-          <mat-form-field appearance="standard">
-            <mat-label>Annual turnover</mat-label>
-            <input matInput type="number" placeholder="Placeholder" formControlName="annualTurnover">
-          </mat-form-field>
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.annualTurnover}} </td>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.organizationType; else defaultValue">
+          {{element.organizationType}}
+          </ng-container>
+          <ng-template #defaultValue>
+            -
+          </ng-template></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

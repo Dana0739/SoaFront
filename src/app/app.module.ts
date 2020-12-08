@@ -10,7 +10,7 @@ import {AllWorkersComponent} from './all-workers/all-workers.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CrudFormComponent} from './crud-form/crud-form.component';
+import {WorkerCrudFormComponent} from './worker-crud-form/worker-crud-form.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
@@ -18,6 +18,10 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { WorkersTableFilterSortComponent } from './workers-table-filter-sort/workers-table-filter-sort.component';
+import { AllOrganizationsComponent } from './all-organizations/all-organizations.component';
+import { OrganizationsTableComponent } from './organizations-table/organizations-table.component';
+import { HrRpcComponent } from './hr-rpc/hr-rpc.component';
+import { OrganizationCrudFormComponent } from './organization-crud-form/organization-crud-form.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +29,12 @@ import { WorkersTableFilterSortComponent } from './workers-table-filter-sort/wor
     WorkersTableComponent,
     CommandsComponent,
     AllWorkersComponent,
-    CrudFormComponent,
+    WorkerCrudFormComponent,
     WorkersTableFilterSortComponent,
+    AllOrganizationsComponent,
+    OrganizationsTableComponent,
+    HrRpcComponent,
+    OrganizationCrudFormComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AppWorker} from '../worker';
 import {WorkerService} from '../worker.service';
 
 @Component({
@@ -9,7 +8,6 @@ import {WorkerService} from '../worker.service';
 })
 export class AllWorkersComponent implements OnInit {
   addFormVisible: boolean;
-  addCurrentWorker: AppWorker;
   id: number;
   isEdit: boolean;
 
@@ -26,12 +24,11 @@ export class AllWorkersComponent implements OnInit {
 
   createWorker(): void {
     this.addFormVisible = true;
-    this.addCurrentWorker = undefined;
     this.isEdit = false;
   }
 
   editWorker(): void {
-    if (!!this.id || this.id === 0) {
+    if (!!this.id || this.id !== undefined || this.id >= 0) {
       this.addFormVisible = true;
       this.isEdit = true;
     }

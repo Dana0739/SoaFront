@@ -1,0 +1,30 @@
+<ng-template #formTemplate let-data=data>
+  <h1 mat-dialog-title>CRUD</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formGroup" class="crud-form">
+      <mat-form-field appearance="standard">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" placeholder="Placeholder" formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>X</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateX" required>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Y</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="coordinateY" required>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Salary</mat-label>
+        <input matInput type="number" placeholder="Placeholder" formControlName="salary">
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <p [hidden]="formValid">
+      Only Salary is NOT required!
+    </p>
+    <button mat-button color="primary" (click)="close()">No Thanks</button>
+    <button mat-button color="primary" (click)="ok()">Ok</button>
+  </div>
+</ng-template>

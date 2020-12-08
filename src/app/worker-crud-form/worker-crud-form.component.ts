@@ -15,11 +15,11 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {WorkerService} from '../worker.service';
 
 @Component({
-  selector: 'app-crud-form',
-  templateUrl: './crud-form.component.html',
-  styleUrls: ['./crud-form.component.css']
+  selector: 'app-worker-crud-form',
+  templateUrl: './worker-crud-form.component.html',
+  styleUrls: ['./worker-crud-form.component.css']
 })
-export class CrudFormComponent implements OnInit, OnChanges {
+export class WorkerCrudFormComponent implements OnInit, OnChanges {
 
   @ViewChild('formTemplate')
   formTemplate: TemplateRef<any>;
@@ -42,26 +42,6 @@ export class CrudFormComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   formValid: boolean;
   openedDialog: MatDialogRef<any>;
-  positions = [
-    {value: 'laborer', viewValue: 'Laborer'},
-    {value: 'human_resources', viewValue: 'Human Resources'},
-    {value: 'cleaner', viewValue: 'Cleaner'},
-    {value: 'manager_of_cleaning', viewValue: 'Cleaning Manager'}
-  ];
-  statuses = [
-    {value: 'hired', viewValue: 'Hired'},
-    {value: 'recommended_for_promotion', viewValue: 'Recommended for promotion'},
-    {value: 'regular', viewValue: 'Regular'},
-    {value: 'probation', viewValue: 'Probation'},
-    {value: null, viewValue: ''}
-  ];
-  organizationType = [
-    {value: 'public', viewValue: 'Public'},
-    {value: 'government', viewValue: 'Government'},
-    {value: 'trust', viewValue: 'Trust'},
-    {value: 'private_limited_company', viewValue: 'Private limited company'},
-    {value: 'open_joint_stock_company', viewValue: 'Open joint stock company'}
-  ];
 
   constructor(private formBuilder: FormBuilder,
               private matDialog: MatDialog,
@@ -74,14 +54,13 @@ export class CrudFormComponent implements OnInit, OnChanges {
       name: [],
       coordinateX: [],
       coordinateY: [],
-      salary: [],
-      position: [],
-      status: [],
-      endDate: [],
-      annualTurnover: [],
-      employeesCount: [],
-      organizationType: []
+      salary: []
     });
+    if (this.isEdit) {
+      this.workerService.getWorker(this.id).subscribe(res => this.worker = res);
+    } else {
+      this.worker = undefined;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -104,11 +83,15 @@ export class CrudFormComponent implements OnInit, OnChanges {
   }
 
   ok(): void {
-    this.worker = (this.formGroup.value as AppWorker);
     if (this.isEdit) {
-      this.worker.id = this.id;
+      const workerTmp = (this.formGroup.value as AppWorker);
+      this.worker.name = workerTmp.name;
+      this.worker.coordinateX = workerTmp.coordinateX;
+      this.worker.coordinateY = workerTmp.coordinateY;
+      this.worker.salary = workerTmp.salary;
+    } else {
+      this.worker = (this.formGroup.value as AppWorker);
     }
-    // console.log(this.checkWorker(this.worker));
     if (this.checkWorker(this.worker)) {
       this.formValid = true;
       this.callSaveWorker();
@@ -127,8 +110,10 @@ export class CrudFormComponent implements OnInit, OnChanges {
   }
 
   private checkWorker(worker: AppWorker): boolean {
-    return worker.position != null && worker.name != null && worker.annualTurnover != null
-      && worker.organizationType != null  && worker.employeesCount != null
-      && worker.coordinateX != null  && worker.coordinateY != null;
+    return worker.name != null
+      && worker.name !== ''
+      && worker.coordinateX != null
+      && worker.coordinateY != null
+      && worker.salary > 0;
   }
 }

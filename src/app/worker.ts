@@ -3,12 +3,13 @@ export class AppWorker {
   name: string;
   coordinateX: number;
   coordinateY: number;
-  annualTurnover: number;
   creationDate: string;
-  employeesCount: number;
-  endDate?: string;
-  organizationType: string;
-  position: string;
   salary?: number;
+  startDate?: string;
+  endDate?: string;
+  position?: string;
   status?: string;
+  annualTurnover?: number;
+  employeesCount?: number;
+  organizationType?: string;
 }

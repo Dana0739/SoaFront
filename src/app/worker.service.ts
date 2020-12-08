@@ -6,21 +6,6 @@ import {AppWorker} from './worker';
 import {environment} from '../environments/environment';
 import * as xml2js from 'xml2js';
 
-
-const WORKER_DATA: any[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-];
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +13,7 @@ export class WorkerService {
 
   constructor(private http: HttpClient) {
   }
-  private url = environment.url;
+  private url = environment.urlCRUD;
 
   getWorkers(): Observable<AppWorker[]> {
     return this.http.get(
@@ -46,7 +31,10 @@ export class WorkerService {
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.endDate.charAt(0) === '0') {
+              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+                worker.startDate = worker.startDate.replace('0', '2');
+              }
+              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -77,7 +65,10 @@ export class WorkerService {
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.endDate.charAt(0) === '0') {
+              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+                worker.startDate = worker.startDate.replace('0', '2');
+              }
+              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -111,7 +102,12 @@ export class WorkerService {
             console.log(parsed);
             parsed.response.worker.creationDate =
               parsed.response.worker.creationDate.slice(0, parsed.response.worker.creationDate.indexOf('['));
-            if (parsed.response.worker.endDate.charAt(0) === '0') {
+            if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
+              // todo check worker.startDate exists and nullable
+              parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
+            }
+            if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
+              // todo check worker.endDate exists and nullable
               parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
             }
             subscriber.next(parsed.response.worker);
@@ -148,7 +144,12 @@ export class WorkerService {
             console.log(parsed);
             parsed.response.worker.creationDate = parsed.response.worker.creationDate
               .slice(0, parsed.response.worker.creationDate.indexOf('['));
-            if (parsed.response.worker.endDate.charAt(0) === '0') {
+            if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
+              // todo check worker.startDate exists and nullable
+              parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
+            }
+            if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
+              // todo check worker.endDate exists and nullable
               parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
             }
             subscriber.next(parsed.response.worker);
@@ -193,7 +194,10 @@ export class WorkerService {
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.endDate.charAt(0) === '0') {
+              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+                worker.startDate = worker.startDate.replace('0', '2');
+              }
+              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -213,11 +217,11 @@ export class WorkerService {
 
   // Add new worker
   private post(worker: AppWorker) {
-    console.log('posting');
-    let url = this.url + '?' + this.makeArgsForUrl(worker);
-    url = (url[-1] === '?') ? url.slice(0, -1) : url;
+    console.log('posting'); // todo test body
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(this.makeArgsForBody(worker), 'application/xml');
     return this.http.post(
-      url, null, {responseType: 'text'}
+      this.url, doc, {responseType: 'text'}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();
@@ -226,7 +230,10 @@ export class WorkerService {
           console.log(parsed);
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
-          if (worker.endDate.charAt(0) === '0') {
+          if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+            worker.startDate = worker.startDate.replace('0', '2');
+          }
+          if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
             worker.endDate = worker.endDate.replace('0', '2');
           }
           subscriber.next(parsed.response.worker);
@@ -239,10 +246,11 @@ export class WorkerService {
   // Update existing worker
   private put(worker: AppWorker) {
     console.log('putting');
-    let url = `${this.url}/${worker.id}?` + this.makeArgsForUrl(worker);
-    url = (url[-1] === '?') ? url.slice(0, -1) : url;
+    const url = `${this.url}/${worker.id}`; // todo test body
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(this.makeArgsForBody(worker), 'application/xml');
     return this.http.put(
-      url, null, {responseType: 'text'}
+      url, doc, {responseType: 'text'}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();
@@ -251,7 +259,12 @@ export class WorkerService {
           console.log(parsed);
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
-          if (parsed.response.worker.endDate.charAt(0) === '0') {
+          if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
+            // todo check worker.startDate exists and nullable
+            parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
+          }
+          if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
+            // todo check worker.endDate exists and nullable
             parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
           }
           subscriber.next(parsed.response.worker);
@@ -261,18 +274,27 @@ export class WorkerService {
     });
   }
 
-  private makeArgsForUrl(worker: AppWorker): string {
-    let args = (((worker.salary) ? 'salary=' + worker.salary + '&' : '')
-      + ((worker.coordinateX) ? 'coordinateX=' + worker.coordinateX + '&' : '')
-      + ((worker.coordinateY) ? 'coordinateY=' + worker.coordinateY + '&' : '')
-      + ((worker.organizationType) ? 'organizationType=' + worker.organizationType + '&' : '')
-      + ((worker.annualTurnover) ? 'annualTurnover=' + worker.annualTurnover + '&' : '')
-      + ((worker.endDate) ? 'endDate=' + worker.endDate + '&' : '')
-      + ((worker.name) ? 'name=' + worker.name + '&' : '')
-      + ((worker.position) ? 'position=' + worker.position + '&' : '')
-      + ((worker.status) ? 'status=' + worker.status + '&' : '')
-      + ((worker.employeesCount) ? 'employeesCount=' + worker.employeesCount + '&' : '')).trim();
-    args = (args[-1] === '&') ? args.slice(0, -1) : args;
-    return args;
+  private makeArgsForBody(worker: AppWorker): string {
+    return ('<worker>'
+      + ((worker.name) ? '<name>' + worker.name + '</name>' : '')
+      + ((worker.coordinateX)
+        ? '<coordinates>'
+        + '<x>' + worker.coordinateX + '</x>'
+        + '<y>' + worker.coordinateY + '</y>'
+        + '</coordinates>'
+        : '')
+      + ((worker.salary) ? '<salary>' + worker.salary + '</salary>' : '')
+      + ((worker.startDate) ? '<startDate>' + worker.startDate + '</startDate>' : '')
+      + ((worker.endDate) ? '<endDate>' + worker.endDate + '</endDate>' : '')
+      + ((worker.position) ? '<position>' + worker.position + '</position>' : '')
+      + ((worker.status) ? '<status>' + worker.status + '</status>' : '')
+      + ((worker.organizationType)
+        ? '<organization>'
+        + '<annualTurnover>' + worker.annualTurnover + '</annualTurnover>'
+        + '<employeesCount>' + worker.employeesCount + '</employeesCount>'
+        + '<type>' + worker.organizationType + '</type>'
+        + '</organization>'
+        : '')
+      + '</worker>');
   }
 }

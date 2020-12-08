@@ -10,7 +10,7 @@ import {PageEvent} from '@angular/material/paginator';
   templateUrl: './workers-table.component.html',
   styleUrls: ['./workers-table.component.css']
 })
-export class WorkersTableComponent implements OnInit, OnChanges {
+export class WorkersTableComponent implements OnInit {
   @Input()
   workers: AppWorker[] = [];
   displayedColumns: string[] = [
@@ -18,36 +18,21 @@ export class WorkersTableComponent implements OnInit, OnChanges {
     'name',
     'coordinateX',
     'coordinateY',
-    'annualTurnover',
     'creationDate',
+    'salary',
+    'startDate',
     'endDate',
+    'position',
+    'status',
+    'annualTurnover',
     'employeesCount',
     'organizationType',
-    'salary',
-    'status',
-    'position',
   ];
-  length = 0;
-  pageSize = 10;
-  pageIndex = 0;
 
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.workers) {
-      this.pageIndex = 0;
-      this.length = this.workers.length;
-    }
-  }
-
-  pageChange(event: PageEvent): void {
-    console.log(event);
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
   }
 }
 

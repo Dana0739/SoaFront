@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:34345/lab1-1.0-SNAPSHOT/workers'
+  urlCRUD: 'http://localhost:34345/lab1-1.0-SNAPSHOT/workers',
+  urlHR: 'http://localhost:18765//hr'
 };
 
 /*
