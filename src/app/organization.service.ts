@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {Observable} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
@@ -13,7 +13,7 @@ import {HireFormData} from './hr-rpc/hr-rpc.component';
 export class OrganizationService {
   constructor(private http: HttpClient) {
   }
-  private urlCRUD = environment.urlCRUD;
+  private urlCRUD = environment.urlCRUD + 'organizations';
   private urlHR = environment.urlHR;
 
   getOrganizations(): Observable<AppOrganization[]> {
@@ -70,6 +70,7 @@ export class OrganizationService {
   }
 
   save(organization: AppOrganization) {
+    console.log(organization);
     if (organization.id) {
       return this.put(organization);
     }
@@ -78,10 +79,11 @@ export class OrganizationService {
 
   // Add new organization
   private post(organization: AppOrganization) { // todo test body
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(this.makeArgsForBody(organization), 'application/xml');
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     return this.http.post(
-      this.urlCRUD, doc, {responseType: 'text'}
+      this.urlCRUD, this.makeArgsForBody(organization), {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();
@@ -98,10 +100,11 @@ export class OrganizationService {
   // Update existing organization
   private put(organization: AppOrganization) {
     const url = `${this.urlCRUD}/${organization.id}`; // todo test body
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(this.makeArgsForBody(organization), 'application/xml');
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     return this.http.put(
-      url, doc, {responseType: 'text'}
+      url, this.makeArgsForBody(organization), {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();

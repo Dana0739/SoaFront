@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {AppWorker} from './worker';
@@ -13,7 +13,7 @@ export class WorkerService {
 
   constructor(private http: HttpClient) {
   }
-  private url = environment.urlCRUD;
+  private url = environment.urlCRUD + 'workers';
 
   getWorkers(): Observable<AppWorker[]> {
     return this.http.get(
@@ -217,11 +217,11 @@ export class WorkerService {
 
   // Add new worker
   private post(worker: AppWorker) {
-    console.log('posting'); // todo test body
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(this.makeArgsForBody(worker), 'application/xml');
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     return this.http.post(
-      this.url, doc, {responseType: 'text'}
+      this.url, this.makeArgsForBody(worker), {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();
@@ -245,12 +245,12 @@ export class WorkerService {
 
   // Update existing worker
   private put(worker: AppWorker) {
-    console.log('putting');
     const url = `${this.url}/${worker.id}`; // todo test body
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(this.makeArgsForBody(worker), 'application/xml');
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     return this.http.put(
-      url, doc, {responseType: 'text'}
+      url, this.makeArgsForBody(worker), {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();

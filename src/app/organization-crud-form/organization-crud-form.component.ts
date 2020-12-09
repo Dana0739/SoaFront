@@ -90,10 +90,8 @@ export class OrganizationCrudFormComponent implements OnInit, OnChanges {
 
   ok(): void {
     if (this.isEdit) {
-      const organizationTmp = (this.formGroup.value as AppOrganization);
-      this.organization.annualTurnover = organizationTmp.annualTurnover;
-      this.organization.employeesCount = organizationTmp.employeesCount;
-      this.organization.organizationType = organizationTmp.organizationType;
+      this.organization = (this.formGroup.value as AppOrganization);
+      this.organization.id = this.id;
     } else {
       this.organization = (this.formGroup.value as AppOrganization);
     }

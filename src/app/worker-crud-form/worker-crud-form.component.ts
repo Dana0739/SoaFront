@@ -84,11 +84,8 @@ export class WorkerCrudFormComponent implements OnInit, OnChanges {
 
   ok(): void {
     if (this.isEdit) {
-      const workerTmp = (this.formGroup.value as AppWorker);
-      this.worker.name = workerTmp.name;
-      this.worker.coordinateX = workerTmp.coordinateX;
-      this.worker.coordinateY = workerTmp.coordinateY;
-      this.worker.salary = workerTmp.salary;
+      this.worker = (this.formGroup.value as AppWorker);
+      this.worker.id = this.id;
     } else {
       this.worker = (this.formGroup.value as AppWorker);
     }

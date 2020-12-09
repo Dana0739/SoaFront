@@ -1,0 +1,7 @@
+table {
+  width: 100%;
+}
+.warning {
+  color: darkred;
+  font-weight: bold;
+}

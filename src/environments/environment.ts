@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  urlCRUD: 'http://localhost:34345/lab1-1.0-SNAPSHOT/workers',
-  urlHR: 'http://localhost:18765//hr'
+  urlCRUD: 'http://localhost:34345/soa2back-0.0.1-SNAPSHOT/',
+  urlHR: 'http://localhost:18765/smth/hr'
 };
 
 /*
