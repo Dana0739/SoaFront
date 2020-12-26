@@ -111,6 +111,7 @@ export class WorkerCrudFormComponent implements OnInit, OnChanges {
       && worker.name !== ''
       && worker.coordinateX != null
       && worker.coordinateY != null
+      && worker.coordinateY < 444
       && worker.salary > 0;
   }
 }

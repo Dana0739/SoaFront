@@ -78,7 +78,7 @@ export class OrganizationService {
   }
 
   // Add new organization
-  private post(organization: AppOrganization) { // todo test body
+  private post(organization: AppOrganization) {
     const headers = new HttpHeaders()
       .set('Access-Control-Allow-Origin', '*')
       .set('Content-Type', 'application/xml');
@@ -99,7 +99,7 @@ export class OrganizationService {
 
   // Update existing organization
   private put(organization: AppOrganization) {
-    const url = `${this.urlCRUD}/${organization.id}`; // todo test body
+    const url = `${this.urlCRUD}/${organization.id}`;
     const headers = new HttpHeaders()
       .set('Access-Control-Allow-Origin', '*')
       .set('Content-Type', 'application/xml');
@@ -126,20 +126,26 @@ export class OrganizationService {
       + '</organization>');
   }
 
-  hire(data: HireFormData): void { // todo test
-    const url = `${this.urlHR}/hire/${data.personId}/${data.orgId}/${data.position}/${data.status}/${data.startDate}`;
+  hire(data: HireFormData): void {
+    const url = `${this.urlHR}hire/${data.personId}/${data.orgId}/${data.position}/${data.status}/${data.startDate}`;
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     this.http.post(
-      url, null
+      url, null, {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();
     });
   }
 
-  fire(id: number): void { // todo test
-    const url = `${this.urlHR}/fire/${id}`;
+  fire(id: number): void {
+    const url = `${this.urlHR}fire/${id}`;
+    const headers = new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/xml');
     this.http.post(
-      url, null
+      url, null, {responseType: 'text', headers}
     ).subscribe(res => {
       console.log(res);
       window.location.reload();

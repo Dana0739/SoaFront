@@ -1,5 +1,5 @@
 <div>
-  <ng-template #formTemplate let-data=data>
+  <div>
     <div mat-dialog-content>
       <form [formGroup]="formGroup" class="crud-form">
         <mat-form-field appearance="standard">
@@ -12,7 +12,7 @@
         </mat-form-field>
         <mat-form-field appearance="standard">
           <mat-label>Start date</mat-label>
-          <input matInput type="datetime-local" placeholder="Placeholder" formControlName="startDate">
+          <input matInput type="date" placeholder="Placeholder" formControlName="startDate">
         </mat-form-field>
         <mat-form-field appearance="standard">
           <mat-label>Position</mat-label>
@@ -39,7 +39,7 @@
       </p>
       <button mat-button color="primary" (click)="hire()">Hire</button>
     </div>
-  </ng-template>
+  </div>
   <br/>
   <button mat-button color="primary" (click)="fire()">Fire</button>
   <label>

@@ -26,16 +26,12 @@ export class HrRpcComponent implements OnInit {
     {value: null, viewValue: ''}
   ];
 
-  @ViewChild('formTemplate')
-  formTemplate: TemplateRef<any>;
-
   @Input()
   workerId: number;
 
   idValid: boolean;
   formGroup: FormGroup;
   formValid: boolean;
-  openedDialog: MatDialogRef<any>;
 
   constructor(private formBuilder: FormBuilder,
               private organizationService: OrganizationService) { }
@@ -65,6 +61,7 @@ export class HrRpcComponent implements OnInit {
   hire(): void {
     const data = (this.formGroup.value as HireFormData);
     if (this.checkForm(data)) {
+      data.startDate = data.startDate.slice(0, 10);
       this.formValid = true;
       this.organizationService.hire(data);
     } else {

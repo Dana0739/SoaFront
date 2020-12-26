@@ -183,11 +183,11 @@ export class WorkersTableFilterSortComponent implements OnInit {
     }
     if (filterArguments.startDate) {
       this.filterFields += 'startDate,';
-      this.filterValues += filterArguments.startDate + ',';
+      this.filterValues += filterArguments.startDate.slice(0, 10) + ',';
     }
     if (filterArguments.endDate) {
       this.filterFields += 'endDate,';
-      this.filterValues += filterArguments.endDate + ',';
+      this.filterValues += filterArguments.endDate.slice(0, 10) + ',';
     }
     if (filterArguments.position) {
       this.filterFields += 'position,';

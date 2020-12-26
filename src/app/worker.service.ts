@@ -26,15 +26,17 @@ export class WorkerService {
             let workers = parsed.response.worker;
             if (!Array.isArray(parsed.response.worker)) {
               workers = [];
-              workers.push(parsed.response.worker);
+              if (parsed.response.worker !== undefined) {
+                workers.push(parsed.response.worker);
+              }
             }
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+              if (worker.startDate && worker.startDate.charAt(0) === '0') {
                 worker.startDate = worker.startDate.replace('0', '2');
               }
-              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
+              if (worker.endDate && worker.endDate.charAt(0) === '0') {
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -60,15 +62,17 @@ export class WorkerService {
             let workers = parsed.response.worker;
             if (!Array.isArray(parsed.response.worker)) {
               workers = [];
-              workers.push(parsed.response.worker);
+              if (parsed.response.worker !== undefined) {
+                workers.push(parsed.response.worker);
+              }
             }
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+              if (worker.startDate && worker.startDate.charAt(0) === '0') {
                 worker.startDate = worker.startDate.replace('0', '2');
               }
-              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
+              if (worker.endDate && worker.endDate.charAt(0) === '0') {
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -103,11 +107,9 @@ export class WorkerService {
             parsed.response.worker.creationDate =
               parsed.response.worker.creationDate.slice(0, parsed.response.worker.creationDate.indexOf('['));
             if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
-              // todo check worker.startDate exists and nullable
               parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
             }
             if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
-              // todo check worker.endDate exists and nullable
               parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
             }
             subscriber.next(parsed.response.worker);
@@ -145,11 +147,9 @@ export class WorkerService {
             parsed.response.worker.creationDate = parsed.response.worker.creationDate
               .slice(0, parsed.response.worker.creationDate.indexOf('['));
             if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
-              // todo check worker.startDate exists and nullable
               parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
             }
             if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
-              // todo check worker.endDate exists and nullable
               parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
             }
             subscriber.next(parsed.response.worker);
@@ -189,15 +189,17 @@ export class WorkerService {
             let workers = parsed.response.worker;
             if (!Array.isArray(parsed.response.worker)) {
               workers = [];
-              workers.push(parsed.response.worker);
+              if (parsed.response.worker !== undefined) {
+                workers.push(parsed.response.worker);
+              }
             }
             console.log(workers);
             workers.forEach(worker => {
               worker.creationDate = worker.creationDate.slice(0, worker.creationDate.indexOf('['));
-              if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+              if (worker.startDate && worker.startDate.charAt(0) === '0') {
                 worker.startDate = worker.startDate.replace('0', '2');
               }
-              if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
+              if (worker.endDate && worker.endDate.charAt(0) === '0') {
                 worker.endDate = worker.endDate.replace('0', '2');
               }
             });
@@ -230,10 +232,10 @@ export class WorkerService {
           console.log(parsed);
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
-          if (worker.startDate && worker.startDate.charAt(0) === '0') { // todo check worker.startDate exists and nullable
+          if (worker.startDate && worker.startDate.charAt(0) === '0') {
             worker.startDate = worker.startDate.replace('0', '2');
           }
-          if (worker.endDate && worker.endDate.charAt(0) === '0') { // todo check worker.endDate exists and nullable
+          if (worker.endDate && worker.endDate.charAt(0) === '0') {
             worker.endDate = worker.endDate.replace('0', '2');
           }
           subscriber.next(parsed.response.worker);
@@ -245,7 +247,7 @@ export class WorkerService {
 
   // Update existing worker
   private put(worker: AppWorker) {
-    const url = `${this.url}/${worker.id}`; // todo test body
+    const url = `${this.url}/${worker.id}`;
     const headers = new HttpHeaders()
       .set('Access-Control-Allow-Origin', '*')
       .set('Content-Type', 'application/xml');
@@ -260,11 +262,9 @@ export class WorkerService {
           parsed.response.worker.creationDate = parsed.response.worker.creationDate
             .slice(0, parsed.response.worker.creationDate.indexOf('['));
           if (parsed.response.worker.startDate && parsed.response.worker.startDate.charAt(0) === '0') {
-            // todo check worker.startDate exists and nullable
             parsed.response.worker.startDate = parsed.response.worker.startDate.replace('0', '2');
           }
           if (parsed.response.worker.endDate && parsed.response.worker.endDate.charAt(0) === '0') {
-            // todo check worker.endDate exists and nullable
             parsed.response.worker.endDate = parsed.response.worker.endDate.replace('0', '2');
           }
           subscriber.next(parsed.response.worker);

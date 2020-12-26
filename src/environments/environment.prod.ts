@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:34345/lab1-1.0-SNAPSHOT/workers'
+  urlCRUD: 'https://localhost:34346/soa2back-0.0.1-SNAPSHOT/',
+  urlHR: 'https://localhost:34343/soa2backJaxRS/hr/'
 };
